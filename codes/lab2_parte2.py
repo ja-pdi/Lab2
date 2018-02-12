@@ -26,12 +26,12 @@ def imprimir_img2x2(img,laplacian,sobelx,sobely):
     plt.show()
 
 def filtro_kernel(kn,img):
-    kernel = np.ones((kn,kn),np.float32)/kn**2
+    kernel = np.ones((kn,kn),np.float)/kn**2
     dst = cv2.filter2D(img,-1,kernel)
     imprimir_img(img,dst)
     	
 
-# # Parte II 
+# # Parte II. Streching Leer imagen de un repositorio de imágenes.
 
 # 1.a) Mascara de suavizado. Kernel 3x3.
 # imgBGR = cv2.imread('../img/con00004.jpg')
@@ -49,11 +49,11 @@ imgPerfilada = cv2.Laplacian(imgRGB,cv2.CV_8U,ksize=5)
 imprimir_img(imgRGB,imgPerfilada)
 
 # 1.d) Difuminado Gaussiano. Elimina el ruido gaussiano de la imagen.
-imgBlur = cv2.GaussianBlur(imgPerfilada,(5,5),0)
-imprimir_img(imgPerfilada,imgBlur)
+imgBlur = cv2.GaussianBlur(imgRGB,(5,5),0)
+imprimir_img(imgRGB,imgBlur)
 
 # 1.e) Detector de contornos. (Imagen en escala de grises)
-imgGRAY = cv2.cvtColor(imgBlur, cv2.COLOR_RGB2GRAY)     # Esta linea se puede sustituir por colocar
+imgGRAY = cv2.cvtColor(imgRGB, cv2.COLOR_RGB2GRAY)     # Esta linea se puede sustituir por colocar
                                                         # imgBGR = cv2.imread('../img/Test3.jpg',0) 
                                                         # al leer la imagen.
 laplacian = cv2.Laplacian(imgGRAY,cv2.CV_64F)
@@ -62,3 +62,7 @@ sobely = cv2.Sobel(imgGRAY,cv2.CV_64F,0,1,ksize=5)
 imprimir_img2x2(imgGRAY,laplacian,sobelx,sobely)
 
 # 1.f) Laplaciano del Gaussiano con Kernel 5x5.
+imgGauss = cv2.GaussianBlur(imgRGB,(5,5),0)
+imgLaplace = cv2.Laplacian(imgGauss,cv2.CV_8U,ksize=5)
+imprimir_img(imgRGB,imgLaplace)
+
